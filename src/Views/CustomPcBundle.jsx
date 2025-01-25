@@ -7,7 +7,6 @@ const CustomPcBundle = () => {
     <>
     <section className='bg-black pb-[50px]'>
 
-        <ShopNavbar/>
 
         {/* banner section */}
         <div

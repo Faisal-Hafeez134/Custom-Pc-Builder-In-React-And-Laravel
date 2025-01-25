@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
-
+import logo from '../assets/img/Logo.png'
 const ShopNavbar = () => {
 
 
@@ -23,7 +23,7 @@ const ShopNavbar = () => {
     <section className='bg-[#0A0A0A] h-[70px] w-full lg:flex items-center sticky top-0 z-50 hidden '>
         <div className='w-[90%] mx-auto flex text-white font-semibold font-[inter] text-[14px]'>
 
-            <h1>Logo</h1>
+            <h1><Link to='/'><img src={logo}></img></Link></h1>
             <div className=''> 
                 <ul className='flex gap-[50px] absolute left-1/2 transform -translate-x-1/2 cursor-pointer'>
                     <li>Deals</li>
@@ -35,8 +35,8 @@ const ShopNavbar = () => {
 
                     {gamingDropdownOpen && (
                         <ul className='bg-[#0A0A0A] text-[12px] w-[150px] p-[10px] grid gap-3 absolute top-full'>
-                          <li> <Link to='/custompcbundle' className='pt-5'>Gamming Pc Bundle</Link></li> 
-                          <li> <Link to='/custompcshop'>Custom Pc Builder</Link></li> 
+                          <li> <Link to='/gammingpc/custompcbundle' className='pt-5'>Gamming Pc Bundle</Link></li> 
+                          <li> <Link to='/gammingpc/custompcshop'>Custom Pc Builder</Link></li> 
 
                         </ul>
                     )}
@@ -62,7 +62,11 @@ const ShopNavbar = () => {
                         </ul>
                     )}
                     </li>
-                    <li>PROCESSORS</li>
+
+                    <li>
+              <Link to='/processor'>
+              PROCESSORS</Link>
+              </li>
                 </ul>
             </div>
 

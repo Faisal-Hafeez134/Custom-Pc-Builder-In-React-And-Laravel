@@ -48,7 +48,6 @@ const GraphicShopView = () => {
     
     <section className='bg-[#0A0A0A] '>
         <div>
-            <ShopNavbar/>
         </div>
 
 

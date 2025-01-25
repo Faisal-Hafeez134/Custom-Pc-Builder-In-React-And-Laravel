@@ -1,13 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ShopNavbar from '../Components/ShopNavbar'
 import { BiLogoTelegram } from "react-icons/bi";
 import BuildPcCard from '../Components/BuildPcCard';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect } from 'react';
+import SearchBar from '../Components/SearchBar/SearchBar';
+import Pagination from '../Components/Pagination/Pagination';
+
 const Custompcshop = () => {
+  const [products, setProducts] = useState([]);
+  const [search,setSearch] = useState([]);
+
+
+  const {type} = useParams();
+
+
+  const fetchData = async () => {
+    try{ 
+    const response = await axios.get('http://127.0.0.1:8000/api/get-all-product');
+    const product = response.data.product;
+    setSearch(product);
+    if(type && type  !=='')
+    {
+     const filterProduct = product.filter((product) => product.category === type);
+     setProducts(filterProduct);
+    }else{
+      setProducts(product);
+    }
+    }catch(error)
+    {
+      console.log("error in fetching",error)
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [type]);
+
   return (
     <>
     <section className='bg-black pb-[50px]'>
 
-        <ShopNavbar/>
 
         {/* banner section */}
         <div
@@ -47,7 +81,7 @@ const Custompcshop = () => {
 </div>
 
 <div className='col-span-4 md:col-span-3 flex items-center justify-center'>
-<button class="bg-green-600 font-bold text-[40px] text-white py-2 px-4 rounded-md text-lg md:text-base sm:text-sm flex-grow  ">
+<button className="bg-green-600 font-bold text-[40px] text-white py-2 px-4 rounded-md text-lg md:text-base sm:text-sm flex-grow  ">
       Call Now
     </button>
 </div>
@@ -69,7 +103,14 @@ const Custompcshop = () => {
 
             <div className='w-[90%] mx-auto mt-[80px]'>
 
-            <BuildPcCard/>
+<SearchBar  products={search}/>
+     
+
+
+
+            <BuildPcCard products={products} />
+
+           
             
             </div>
 

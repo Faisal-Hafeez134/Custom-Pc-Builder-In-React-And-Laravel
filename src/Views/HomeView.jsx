@@ -1,15 +1,59 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../Components/Card'
 import HeroSection from '../Components/HeroSection'
 import Brands from '../Components/Brands'
 import { MdFavoriteBorder } from "react-icons/md";
 import CustomBcCard from '../Components/CustomBcCard';
 import Container from '../Components/Container';
+import axios from 'axios';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+import '../style.css';
 
 const HomeView = () => {
+  const [type,setType] = useState('feature');
+  const [product,setProduct] = useState([]);
+
+  const handleTypeClick = (newtype) => {
+    setType(newtype);
+  };
+
+  // const handleSubmit = (event) => {
+  //   product 
+  // }
+
+  const fetchData = async () => {
+    try
+    {
+      const response = await axios.get('http://127.0.0.1:8000/api/get-all-product');
+      setProduct(response.data.product);
+      console.log(response.data.product)
+    } catch (error)
+    {
+      console.error('Error fetchging data : ' , error);
+    }
+  }
+
+  useEffect(()=>{
+    fetchData();
+  },[]);
+
+  const filteredProducts = product.filter((product) => product.type === type   );
+
+ 
+
   return (
     <>
     <HeroSection/>
+
+
     <Brands/>
     <section className='bg-[#101828] font-[inter] '>
 
@@ -25,6 +69,7 @@ const HomeView = () => {
     textStrokeWidth: '2px',
     textStrokeColor: '#599D21'  
   }}
+  
 >
   Feature Products
 </div>
@@ -32,9 +77,9 @@ const HomeView = () => {
 <div className='flex justify-between text-white font-normal opacity-70 pb-[50px]'>
 
   <div className='text-[13px] flex gap-[40px] '>
-    <h3>FEATURE</h3>
-    <h3>TOP SELLING</h3>
-    <h3>POPULAR</h3>
+    <h3 onClick={() => handleTypeClick('feature')}>FEATURE</h3>
+    <h3 onClick={() => handleTypeClick('trending')}>TOP SELLING</h3>
+    <h3 onClick={() => handleTypeClick('deal')}>POPULAR</h3>
   </div>
   
   <div className='text-[14px] '>
@@ -45,12 +90,22 @@ const HomeView = () => {
 
 <div className='pb-[50px] flex gap-[50px] flex-wrap sm:justify-center md:justify-center lg:justify-start flex-col md:flex-row' >
 
-<Card/>
-<Card/>
-<Card/>
-<Card/>
-<Card/>
-<Card/>
+{/* <Slider {...settings}> */}
+
+
+<Card products={product} type={type} />
+
+{/* </Slider> */}
+
+
+
+
+
+
+
+
+
+
 
 </div>
 
@@ -93,6 +148,8 @@ const HomeView = () => {
 <div className='text-white'>
   <h1 className="text-center">Faq</h1>
 </div>
+
+
 
 </section>
 

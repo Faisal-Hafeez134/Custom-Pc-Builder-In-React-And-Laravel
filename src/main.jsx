@@ -12,15 +12,15 @@ import { store } from './redux/store.js'
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-  //   <App />
-  // </StrictMode>,
-  <Provider store={store}>
-  <BrowserRouter>
+    <App />
+   /* </StrictMode>, */
+  // <Provider store={store}>
+  // <BrowserRouter>
 
-  <GoogleOAuthProvider clientId="628224003870-qktv102nq7k27i7p53bnfufgdhr3arpe.apps.googleusercontent.com">
-  <App />
-    </GoogleOAuthProvider>;
+  // <GoogleOAuthProvider clientId="628224003870-qktv102nq7k27i7p53bnfufgdhr3arpe.apps.googleusercontent.com">
+  // <App />
+    /* </GoogleOAuthProvider>;
   <ToastContainer />
   </BrowserRouter>
-  </Provider>,
+  </Provider>, */
 )

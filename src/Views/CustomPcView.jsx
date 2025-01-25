@@ -21,7 +21,7 @@ const CustomPcView = () => {
     <div class="h-[1px] bg-gray-300 w-full my-[30px]  "></div>
 
 
-    <div className='grid lg:grid-cols-10 md:grid-cols-5 grid-cols-4 w-full gap-5 '>
+    <div className='grid lg:grid-cols-8 md:grid-cols-5 grid-cols-4 w-full gap-5 '>
 
      <div className='col-span-2 mb-[40px] '>
         <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
@@ -37,7 +37,7 @@ const CustomPcView = () => {
         </div>
      </div>
 
-     <div className='col-span-2 mb-[40px] '>
+     <div className='col-span-2 mb-[40px]  '>
         <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>

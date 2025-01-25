@@ -1,8 +1,23 @@
 import React from 'react'
 import  { useState } from "react";
 import { Link } from 'react-router-dom';
+import { addToCart } from '../features/cart/cartSlice';
+import { useDispatch } from "react-redux";
 
 const GraphicCard = ({products}) => {
+  const dispatch = useDispatch();
+
+  const addCart = (product) => {
+    dispatch(
+      addToCart({
+        name: product.title,
+        id: product.id,
+        price: product.price,
+        totalPrice: product.price,
+        image: product.product_images[0].product_img,
+      })
+    );
+  };
   return (
     <>
     
@@ -31,16 +46,16 @@ const GraphicCard = ({products}) => {
 
 
 <h2 className='text-[28px] font-semibold text-green-500 text-center mt-5'>USD1500</h2>
+</Link>
 
 
-<div className="flex justify-center items-center w-full">
+<div className="flex justify-center items-center w-full" onClick={() => addCart(product)}>
 <button className="bg-green-600 text-white font-bold py-3 px-10 rounded-md text-lg flex-grow mt-[30px]">
 Add to Cart
 </button>
 </div>
 
 
-</Link>
 </div>
 ))
 ) : (  <p className="text-gray-400">No products found.</p>
