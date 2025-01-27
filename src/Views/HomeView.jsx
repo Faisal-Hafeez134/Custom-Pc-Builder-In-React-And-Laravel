@@ -20,6 +20,7 @@ import '../style.css';
 const HomeView = () => {
   const [type,setType] = useState('feature');
   const [product,setProduct] = useState([]);
+  const [buildPc, setBuildPc] = useState([]);
 
   const handleTypeClick = (newtype) => {
     setType(newtype);
@@ -34,7 +35,19 @@ const HomeView = () => {
     {
       const response = await axios.get('http://127.0.0.1:8000/api/get-all-product');
       setProduct(response.data.product);
-      console.log(response.data.product)
+      // console.log(response.data.product)
+    } catch (error)
+    {
+      console.error('Error fetchging data : ' , error);
+    }
+  }
+
+  const fetchBuildPc = async () => {
+    try
+    {
+      const response = await axios.get('http://127.0.0.1:8000/api/get-all-BuildPc');
+      setBuildPc(response.data.buildPc);
+      console.log(response.data.buildPc)
     } catch (error)
     {
       console.error('Error fetchging data : ' , error);
@@ -43,6 +56,7 @@ const HomeView = () => {
 
   useEffect(()=>{
     fetchData();
+    fetchBuildPc();
   },[]);
 
   const filteredProducts = product.filter((product) => product.type === type   );
@@ -129,13 +143,12 @@ const HomeView = () => {
   }}>Build Your Custom Pc</h1>
 
 <div className='py-[30px] pb-[50px] flex gap-[50px] flex-wrap lg:justify-start justify-center items-center'>
-  
-<CustomBcCard/>
-<CustomBcCard/>
-<CustomBcCard/>
-<CustomBcCard/>
-<CustomBcCard/>
-<CustomBcCard/>
+{buildPc?.length > 0 ? (
+  buildPc.map((buildpc,index)=> (
+<CustomBcCard buildpc={buildpc}/>
+))): (
+""
+)}
   </div>
   </Container>
     </section>
