@@ -1,6 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Modal from '../Components/Modal/Modal'
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 
 const CustomPcView = () => {
+    const [openModal, setOpenModal] = useState(false);
+    const [buildPc, setBuildPc] = useState([]);
+    const [category, setCategory] = useState('');
+
+
+    const location = useLocation();
+  const buildpc = location.state?.buildpc; 
+  console.log(buildpc.id);
+
+  const fetchBuildPcParts  = async () =>
+  {
+    try{
+    const response = await axios.get(`http://127.0.0.1:8000/api/get-all-BuildPc-Parts-By-Id/${buildpc.id}`)
+    const data = response.data.buildPc;
+    setBuildPc(data)
+    console.log(data);
+    }catch(error){
+        console.error('Error fetchging data : ' , error);
+
+    }
+  }
+
+  useEffect(()=>{
+    fetchBuildPcParts();
+  },[]);
+
   return (
     <section className='mt-[50px] bg-slate-50 shadow-2xl '>
 
@@ -13,32 +42,19 @@ const CustomPcView = () => {
     </div>
 
     <div className='col-span-6'>
-        <h1 className='text-[50px] font-bold'>blaze one</h1>
+        <h1 className='text-[50px] font-bold'>{buildpc.title}</h1>
     <div class="h-[1px] bg-gray-300 w-full my-[30px]  "></div>
     <p className='text-[14px] text-green-600 mb-[50px]'>Typically ships within 2-3 days from purchase</p>
-    <h1 className='mb-[30px]'>USD81,000.00</h1>
-    <h3 className='mb-[30px]' >Customize your Blaze 1 with the ideal components and aesthetic options to create your ultimate gaming PC. Note that the system’s appearance may vary based on your chosen configuration</h3>
+    <h1 className='mb-[30px] text-green-600 text-[42px] font-bold'>USD-{buildpc.price}</h1>
+    <h3 className='mb-[30px] text-[22px]' >Customize your Blaze 1 with the ideal components and aesthetic options to create your ultimate gaming PC. Note that the system’s appearance may vary based on your chosen configuration</h3>
     <div class="h-[1px] bg-gray-300 w-full my-[30px]  "></div>
 
 
-    <div className='grid lg:grid-cols-8 md:grid-cols-5 grid-cols-4 w-full gap-5 '>
-
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
-
-            <p className='text-[50px]'>+</p>
-            <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
-                <p className='text-[12px]'>Rs17,500.00</p>
-                <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
-            </div>
+    <div className='grid lg:grid-cols-12 md:grid-cols-5 grid-cols-4 w-full gap-5 '>
 
 
-        </div>
-     </div>
-
-     <div className='col-span-2 mb-[40px]  '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px] cursor-pointer ' onClick={() => {setOpenModal(true); setCategory('processor');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
@@ -50,14 +66,15 @@ const CustomPcView = () => {
 
         </div>
      </div>
+     <Modal open={openModal} onClose={() => setOpenModal(false)}  category={category}  buildPc={buildPc}/>
 
 
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px]  '  onClick={() => {setOpenModal(true); setCategory('cpucooler');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
+                <p>CPU Cooler</p>
                 <p className='text-[12px]'>Rs17,500.00</p>
                 <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
             </div>
@@ -67,12 +84,12 @@ const CustomPcView = () => {
      </div>
 
 
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px] '  onClick={() => {setOpenModal(true); setCategory('motherboard');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
+                <p>Motherboard</p>
                 <p className='text-[12px]'>Rs17,500.00</p>
                 <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
             </div>
@@ -82,12 +99,12 @@ const CustomPcView = () => {
      </div>
 
 
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px] '  onClick={() => {setOpenModal(true); setCategory('ram');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
+                <p>Ram</p>
                 <p className='text-[12px]'>Rs17,500.00</p>
                 <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
             </div>
@@ -97,12 +114,12 @@ const CustomPcView = () => {
      </div>
 
 
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px] '  onClick={() => {setOpenModal(true); setCategory('ssd');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
+                <p>SSD(Primary)</p>
                 <p className='text-[12px]'>Rs17,500.00</p>
                 <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
             </div>
@@ -112,32 +129,27 @@ const CustomPcView = () => {
      </div>
 
 
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px] '  onClick={() => {setOpenModal(true); setCategory('hdd');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
+                <p>HDD(Secondary)</p>
                 <p className='text-[12px]'>Rs17,500.00</p>
                 <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
             </div>
-
-
-            
-
-            
 
 
         </div>
      </div>
 
 
-     <div className='col-span-2 mb-[40px] '>
-        <div className=' bg-[#E5E7EB] h-[120px] w-[120px] rounded-[5px]  flex items-center justify-center relative'>
+     <div className='col-span-4 mb-[40px] '  onClick={() => {setOpenModal(true); setCategory('gpu');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
 
             <p className='text-[50px]'>+</p>
             <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
-                <p>Processor</p>
+                <p>GPU</p>
                 <p className='text-[12px]'>Rs17,500.00</p>
                 <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
             </div>
@@ -151,7 +163,44 @@ const CustomPcView = () => {
         </div>
      </div>
 
-   
+
+     <div className='col-span-4 mb-[40px] ' onClick={() => {setOpenModal(true); setCategory('case');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
+
+            <p className='text-[50px]'>+</p>
+            <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
+                <p>Case</p>
+                <p className='text-[12px]'>Rs17,500.00</p>
+                <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
+            </div>
+
+
+            
+
+            
+
+
+        </div>
+     </div>
+
+     <div className='col-span-4 mb-[40px] '  onClick={() => {setOpenModal(true); setCategory('powersupply');}}>
+        <div className=' bg-[#E5E7EB] h-[140px] w-[150px] rounded-[5px]  flex items-center justify-center relative'>
+
+            <p className='text-[50px]'>+</p>
+            <div className='p-1 w-[100px]  bg-[rgba(245,245,245,0.7)] shadow-lg rounded-[3px] absolute top-[90px] text-center flex flex-col items-center'>
+                <p>Power Supply</p>
+                <p className='text-[12px]'>Rs17,500.00</p>
+                <p className='bg-lime-400 w-[20px] h-[20px] text-center text-[12px] rounded-[5px]'>1</p>
+            </div>
+
+
+            
+
+            
+
+
+        </div>
+     </div>
 
      
 
